@@ -24,7 +24,7 @@ export default function LinkDisplay(props: {
       <Table>
         <TableHeader>
           <TableRow>
-            {showUser && <TableHead className="w-[100px]">User</TableHead>}
+            {showUser && <TableHead>User</TableHead>}
             <TableHead>Slug</TableHead>
             <TableHead>URL</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -39,13 +39,13 @@ export default function LinkDisplay(props: {
                 </TableCell>
               )}
               <TableCell>{link.slug}</TableCell>
-              <TableCell>
+              <TableCell className="break-all md:break-normal">
                 <Link href={link.url} target="_blank">
                   {link.url}
                 </Link>
               </TableCell>
               <TableCell className="flex justify-end">
-                <div className="my-auto flex flex-row gap-2">
+                <div className="my-auto flex flex-col md:flex-row md:gap-2">
                   <CopyButton text={env.APPLICATION_URL + "/" + link.slug} />
                   <EditButton {...link} />
                   <DeleteButton id={link.id} />

@@ -12,7 +12,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col gap-4 px-5">
+    <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-5">
         <h1 className="text-2xl font-bold">Your links</h1>
         <AddButton />

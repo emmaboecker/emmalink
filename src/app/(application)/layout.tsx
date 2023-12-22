@@ -63,8 +63,8 @@ export default async function Layout({
         </div>
       </header>
       <TRPCReactProvider cookies={cookies().toString()}>
-        <main className="h-full w-full">
-          <div className="container py-5">{children}</div>
+        <main className="container h-full w-full">
+          <div className=" py-5">{children}</div>
         </main>
       </TRPCReactProvider>
       <Toaster />
