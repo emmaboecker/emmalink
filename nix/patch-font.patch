@@ -1,0 +1,18 @@
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 100e5a4..4e6681a 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,11 +1,8 @@
+ import "~/styles/globals.css";
+ 
+-import { Inter } from "next/font/google";
++import localFont from "next/font/local";
+ 
+-const inter = Inter({
+-  subsets: ["latin"],
+-  variable: "--font-sans",
+-});
++const inter = localFont({ src: "%NIX_INTER%", variable: "--font-sans" });
+ 
+ export default async function RootLayout({
+   children,

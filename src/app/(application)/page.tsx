@@ -1,8 +1,8 @@
+"use server";
+
 import { getPageSession } from "~/server/auth/session";
 import UserLinks from "./userlinks";
 import AddButton from "../_components/add-button";
-
-export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const session = await getPageSession();

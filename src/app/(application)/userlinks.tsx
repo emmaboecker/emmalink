@@ -1,3 +1,5 @@
+"use server";
+
 import { api } from "~/trpc/server";
 import LinkDisplay from "../_components/link-display";
 

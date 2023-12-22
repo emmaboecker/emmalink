@@ -26,6 +26,8 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+
+    SKIP_TYPECHECK: z.boolean().default(false),
   },
 
   /**
@@ -48,6 +50,7 @@ export const env = createEnv({
     OAUTH_CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET,
     OPENID_CONFIGURATION: process.env.OPENID_CONFIGURATION,
     APPLICATION_URL: process.env.APPLICATION_URL,
+    SKIP_TYPECHECK: process.env.SKIP_TYPECHECK,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
