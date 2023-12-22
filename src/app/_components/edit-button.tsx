@@ -85,7 +85,7 @@ export function EditButton(
   return (
     <Dialog open={open} onOpenChange={(newOpen) => setOpen(newOpen)}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" title="Edit Link">
           <FiEdit className="h-4 w-4" />
         </Button>
       </DialogTrigger>

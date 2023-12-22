@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -11,6 +10,8 @@ import { api as serverApi } from "~/trpc/server";
 import { EditButton } from "./edit-button";
 import DeleteButton from "./delete-button";
 import Link from "next/link";
+import CopyButton from "./copy-button";
+import { env } from "~/env";
 
 export default function LinkDisplay(props: {
   links: Awaited<ReturnType<typeof serverApi.link.getUserLinks.query>>;
@@ -44,7 +45,8 @@ export default function LinkDisplay(props: {
                 </Link>
               </TableCell>
               <TableCell className="flex justify-end">
-                <div className="flex flex-row gap-2 my-auto">
+                <div className="my-auto flex flex-row gap-2">
+                  <CopyButton text={env.APPLICATION_URL + "/" + link.slug} />
                   <EditButton {...link} />
                   <DeleteButton id={link.id} />
                 </div>

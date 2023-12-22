@@ -36,6 +36,7 @@ export default function DeleteButton({ id }: { id: number }) {
       disabled={deleteMutation.isLoading}
       variant="ghost"
       size="icon"
+      title="Delete link"
     >
       <MdDeleteOutline className="h-4 w-4" />
     </Button>
