@@ -35,12 +35,12 @@ export default function EmmalinkNavAvatar(props: {
             </DropdownMenuItem>
           </Link>
         )}
-        <Link href={"/logout"}>
+        <a href={"/logout"}>
           <DropdownMenuItem>
             <FiLogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
           </DropdownMenuItem>
-        </Link>
+        </a>
       </DropdownMenuContent>
     </DropdownMenu>
   );
