@@ -23,6 +23,8 @@ type UserInfo = {
   preferred_username: string;
 };
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (request: NextRequest) => {
   const opneIDConfig = await getOpenIDConfig();
 

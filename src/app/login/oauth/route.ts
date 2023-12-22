@@ -6,6 +6,8 @@ import type { NextRequest } from "next/server";
 import { env } from "~/env";
 import getOpenIDConfig from "~/server/auth/openid";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (_request: NextRequest) => {
   const openIDConfig = await getOpenIDConfig();
 

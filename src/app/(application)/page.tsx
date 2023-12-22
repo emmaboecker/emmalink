@@ -2,6 +2,8 @@ import { getPageSession } from "~/server/auth/session";
 import UserLinks from "./userlinks";
 import AddButton from "../_components/add-button";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const session = await getPageSession();
 
@@ -11,9 +13,9 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-4 px-5">
-      <div className="flex flex-row gap-5 items-center">
+      <div className="flex flex-row items-center gap-5">
         <h1 className="text-2xl font-bold">Your links</h1>
-        <AddButton  />
+        <AddButton />
       </div>
       <UserLinks />
     </div>
