@@ -1,4 +1,5 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
+import { PostgresError } from "postgres";
 import { z } from "zod";
 
 import {
@@ -39,19 +40,61 @@ export const linkRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const update = await ctx.db
-        .update(links)
-        .set(input.new)
-        .where(eq(links.id, input.id));
+      let update = ctx.db.update(links).set(input.new);
 
-      return update[0] as typeof links.$inferSelect | undefined;
+      if (ctx.session.user.role !== "admin") {
+        update = update.where(
+          and(
+            eq(links.id, input.id),
+            eq(links.userId, ctx.session.user.userId),
+          ),
+        );
+      } else {
+        update = update.where(eq(links.id, input.id));
+      }
+
+      let updated;
+      try {
+        updated = (await update.returning())[0];
+      } catch (err: any) {
+        if (err.code === "23505") {
+          throw new Error("Slug already exists");
+        }
+      }
+      if (!updated) {
+        throw new Error("Failed to update link.");
+      }
+
+      return updated;
     }),
 
   deleteLink: authorizedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      const deleted = await ctx.db.delete(links).where(eq(links.id, input.id));
-      return deleted[0]! as typeof links.$inferSelect;
+      let deletion;
+
+      if (ctx.session.user.role !== "admin") {
+        deletion = ctx.db
+          .delete(links)
+          .where(
+            and(
+              eq(links.id, input.id),
+              eq(links.userId, ctx.session.user.userId),
+            ),
+          );
+      } else {
+        deletion = ctx.db.delete(links).where(eq(links.id, input.id));
+      }
+
+      const deletionResult = (await deletion.returning())[0];
+
+      if (!deletionResult) {
+        throw new Error(
+          "Failed to delete link. This could have happend if you don't have permission to delete this link or there is no link with this id.",
+        );
+      }
+
+      return deletionResult;
     }),
 
   createLink: authorizedProcedure
@@ -63,12 +106,27 @@ export const linkRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const created = await ctx.db.insert(links).values({
-        ...input,
-        createdAt: new Date().getTime(),
-        userId: ctx.session.user.userId,
-      });
+      let created;
 
-      return created[0] as typeof links.$inferSelect | undefined;
+      try {
+        created = await ctx.db
+          .insert(links)
+          .values({
+            ...input,
+            createdAt: new Date().getTime(),
+            userId: ctx.session.user.userId,
+          })
+          .returning();
+      } catch (err: any) {
+        if (err.code === "23505") {
+          throw new Error("Slug already exists");
+        }
+      }
+
+      if (!created) {
+        throw new Error("Failed to create link.");
+      }
+
+      return created;
     }),
 });

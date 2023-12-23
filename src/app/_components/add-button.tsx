@@ -63,8 +63,7 @@ export default function AddButton() {
       form.reset();
     },
     onError: (err) => {
-      console.error(err);
-      form.setError("slug", { message: "slug already in use" });
+      form.setError("slug", { message: err.message });
     },
   });
 

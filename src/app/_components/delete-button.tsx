@@ -12,14 +12,13 @@ export default function DeleteButton({ id }: { id: number }) {
   const { toast } = useToast();
   const deleteMutation = api.link.deleteLink.useMutation({
     onSuccess() {
+      revalidatePathAction(pathname);
       toast({
         title: "Link deleted",
         description: `The link has been deleted.`,
       });
-      revalidatePathAction(pathname);
     },
-    onError(err) {
-      console.error(err);
+    onError(_) {
       toast({
         title: "Failed to delete link",
         description: `The link could not be deleted. Check browser console for more details.`,

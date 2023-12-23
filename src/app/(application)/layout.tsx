@@ -3,10 +3,11 @@ import { cookies } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
 import Link from "next/link";
-import { PageSession, getPageSession } from "~/server/auth/session";
+import { getPageSession } from "~/server/auth/session";
 import { TRPCReactProvider } from "~/trpc/react";
 import EmmalinkNavAvatar from "../_components/navigation-avatar";
 import EmmalinkNavigation from "../_components/navigation-menu";
+import getGravatarURL from "../lib/gravatar";
 
 export const metadata = {
   title: "Emmalink",
@@ -14,31 +15,13 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-async function getGravatar(session?: PageSession): Promise<string | undefined> {
-  if (!session) {
-    return undefined;
-  }
-
-  const email = session.user.email;
-
-  const hashArray = Array.from(
-    new Uint8Array(
-      await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email)),
-    ),
-  );
-  const hashHex = hashArray
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return hashHex;
-}
-
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const session = await getPageSession();
-  const gravatar = await getGravatar(session);
+  const gravatar = await getGravatarURL(session?.user.email);
 
   return (
     <>
@@ -50,7 +33,7 @@ export default async function Layout({
                 <EmmalinkNavigation />
               </div>
               <div className="flex items-center">
-                <EmmalinkNavAvatar session={session} emailHash={gravatar} />
+                <EmmalinkNavAvatar session={session} avatarUrl={gravatar} />
               </div>
             </>
           ) : (

@@ -15,14 +15,14 @@ import { RiAdminFill } from "react-icons/ri";
 
 export default function EmmalinkNavAvatar(props: {
   session: PageSession;
-  emailHash?: string;
+  avatarUrl?: string;
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={`https://gravatar.com/avatar/${props.emailHash}`} />
-          <AvatarFallback>U</AvatarFallback>
+          <AvatarImage src={`${props.avatarUrl}`} />
+          <AvatarFallback>{props.session.user.name[0]}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

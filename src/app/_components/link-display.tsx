@@ -15,16 +15,12 @@ import { env } from "~/env";
 
 export default function LinkDisplay(props: {
   links: Awaited<ReturnType<typeof serverApi.link.getUserLinks.query>>;
-  showUser?: boolean;
 }) {
-  const { showUser = false } = props;
-
   return (
-    <>
+    <> 
       <Table>
         <TableHeader>
           <TableRow>
-            {showUser && <TableHead>User</TableHead>}
             <TableHead>Slug</TableHead>
             <TableHead>URL</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -33,11 +29,6 @@ export default function LinkDisplay(props: {
         <TableBody>
           {props.links.map((link) => (
             <TableRow key={link.id}>
-              {showUser && (
-                <TableCell className="font-medium">
-                  {link.user.username}
-                </TableCell>
-              )}
               <TableCell>{link.slug}</TableCell>
               <TableCell className="break-all md:break-normal">
                 <Link href={link.url} target="_blank">
